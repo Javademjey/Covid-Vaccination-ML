@@ -1,4 +1,4 @@
-!pip install matplotlib
+pip install matplotlib
 
 import streamlit as st
 import datetime as dt
