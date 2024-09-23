@@ -1,4 +1,3 @@
-
 import streamlit as st
 import datetime as dt
 import numpy as np
@@ -12,7 +11,7 @@ from xgboost import XGBRegressor ,plot_importance
 
 
 
-x = pd.read_csv("country_vaccinations.csv")
+x = pd.read_csv("D:\Programming Languages\Python\python practicing\Machine Learning with Python\محمد منثوری ,سهیل تهرانی‌پور\s20\Project 1 - Covid Vaccination\country_vaccinations.csv")
 
 countries_list = x['country'].unique()
 vaccines_list = x['vaccines'].unique()
@@ -31,11 +30,13 @@ x['month'] = x['date'].str[5:7]
 x['year'] = x['date'].str[:4]
 x.drop(['date'] ,axis=1 ,inplace=True)
 
-columns_name = x.columns
-
 LE = LabelEncoder()
 x['country'] = LE.fit_transform(x['country'])
 x['vaccines'] = LE.fit_transform(x['vaccines'])
+
+x = x.drop(['total_vaccinations'] ,axis=1)
+col = x.columns
+col=col[:-1]
 
 X = x.drop(['total_vaccinations'] ,axis=1).values
 y = x['total_vaccinations'].values
@@ -138,18 +139,15 @@ def DownloadDataset(df ,org_df):
 DownloadDataset(x ,org_df)
 
 
-def PlotImportance(columns_name):
-    columns_name = ['country', 'people_vaccinated',
-                    'people_fully_vaccinated', 'daily_vaccinations_raw',
-                    'total_vaccinations_per_hundred', 'people_vaccinated_per_hundred',
-                    'people_fully_vaccinated_per_hundred', 'vaccines', 'day', 'month',
-                    'year'
-                    ]
-    XGBR.get_booster().feature_names = columns_name
-    plot_importance(XGBR.get_booster())
-    fig = plt.show()
-    st.pyplot(fig)
+importances = XGBR.feature_importances_
+importances_seri = pd.DataFrame(importances[:-1], index=col).sort_values(0 ,ascending=False)
+dict_impor = importances_seri.to_dict()
+dict_impor = dict_impor[0]
+feature_name = list(dict_impor.keys())
+feature_score = list(dict_impor.values())
 
-PlotImportance(columns_name)
-
+fig, ax = plt.subplots(figsize=(7,5))
+plot_importance(XGBR, max_num_features=len(col), ax=ax)
+plt.yticks(range(len(feature_name[::-1])) ,feature_name[::-1])
+plt.show() 
 
