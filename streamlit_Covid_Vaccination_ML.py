@@ -34,8 +34,8 @@ LE = LabelEncoder()
 x['country'] = LE.fit_transform(x['country'])
 x['vaccines'] = LE.fit_transform(x['vaccines'])
 
-x = x.drop(['total_vaccinations'] ,axis=1)
-col = x.columns
+x_temp = x.drop(['total_vaccinations'] ,axis=1)
+col = x_temp.columns
 col=col[:-1]
 
 X = x.drop(['total_vaccinations'] ,axis=1).values
