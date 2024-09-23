@@ -12,7 +12,7 @@ from xgboost import XGBRegressor ,plot_importance
 
 
 
-x = pd.read_csv("D:\Programming Languages\Python\python practicing\Machine Learning with Python\محمد منثوری ,سهیل تهرانی‌پور\s20\Project 1 - Covid Vaccination\country_vaccinations.csv")
+x = pd.read_csv("country_vaccinations.csv")
 
 countries_list = x['country'].unique()
 vaccines_list = x['vaccines'].unique()
