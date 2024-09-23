@@ -149,5 +149,5 @@ feature_score = list(dict_impor.values())
 fig, ax = plt.subplots(figsize=(7,5))
 plot_importance(XGBR, max_num_features=len(col), ax=ax)
 plt.yticks(range(len(feature_name[::-1])) ,feature_name[::-1])
-plt.show() 
-
+fig = plt.show() 
+st.pyplot(fig)
